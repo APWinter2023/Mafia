@@ -44,4 +44,6 @@ public abstract class Player {
     public void setMute(boolean mute) {
         isMute = mute;
     }
+
+//    public abstract void accept();
 }
