@@ -1,5 +1,7 @@
 package model;
 
+import logic.PlayerVisitor;
+
 public class GodFather extends Mafia{
 
     private boolean asked=false;
@@ -18,5 +20,10 @@ public class GodFather extends Mafia{
 
     public void setAsked(boolean asked) {
         this.asked = asked;
+    }
+
+    @Override
+    public void accept(PlayerVisitor playerVisitor, Player target) {
+        playerVisitor.godFatherVisit(this,target);
     }
 }

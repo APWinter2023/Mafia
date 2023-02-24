@@ -13,4 +13,5 @@ public interface PlayerVisitor {
     void ordinaryCitizenVisit(OrdinaryCitizen ordinaryCitizen, Player target);
     void sniperVisit(Sniper sniper, Player target);
 
+    void jokerVisit(Joker joker,Player target);
 }

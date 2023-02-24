@@ -1,5 +1,7 @@
 package model;
 
+import logic.PlayerVisitor;
+
 public abstract class Player {
     protected int id;
     protected String name;
@@ -45,5 +47,6 @@ public abstract class Player {
         isMute = mute;
     }
 
-//    public abstract void accept();
+    public abstract void accept(PlayerVisitor playerVisitor, Player target);
+
 }

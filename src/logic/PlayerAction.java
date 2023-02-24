@@ -59,4 +59,9 @@ public class PlayerAction implements PlayerVisitor{
             sniper.shot();
         }
     }
+
+    @Override
+    public void jokerVisit(Joker joker, Player target) {
+
+    }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import logic.PlayerVisitor;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,11 +16,18 @@ public class Detective extends Citizen{
         this(name , -1);
     }
 
+
+
     public void detect(int id , boolean isMafia){
         playersMap.put(id , isMafia);
     }
 
     public boolean isMafia(int id){
         return playersMap.getOrDefault(id , false);
+    }
+
+    @Override
+    public void accept(PlayerVisitor playerVisitor, Player target) {
+        playerVisitor.detectiveVisit(this,target);
     }
 }
