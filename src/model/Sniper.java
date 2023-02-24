@@ -1,5 +1,7 @@
 package model;
 
+import logic.PlayerVisitor;
+
 public class Sniper extends Citizen{
     private int numberOfBulletsLeft;
 
@@ -18,5 +20,10 @@ public class Sniper extends Citizen{
 
     public boolean shot(){
         return numberOfBulletsLeft -- > 0;
+    }
+
+    @Override
+    public void accept(PlayerVisitor playerVisitor, Player target) {
+        playerVisitor.sniperVisit(this,target);
     }
 }
