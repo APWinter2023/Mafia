@@ -21,8 +21,10 @@ public class PlayerAction implements PlayerVisitor{
 
     @Override
     public void doctorVisit(Doctor doctor, Player target) {
-
-        target.setAlive(true);
+        if (doctor.getId() == target.getId())
+            doctor.selfSave();
+        else
+            target.setAlive(true);
     }
 
     @Override
@@ -54,10 +56,8 @@ public class PlayerAction implements PlayerVisitor{
 
     @Override
     public void sniperVisit(Sniper sniper, Player target) {
-        if(sniper.getNumberOfBulletsLeft()>0){
+        if(sniper.shot())
             target.setAlive(false);
-            sniper.shot();
-        }
     }
 
     @Override
