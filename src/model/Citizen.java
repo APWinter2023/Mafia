@@ -1,14 +1,12 @@
 package model;
 
-import logic.PlayerVisitor;
-
-public abstract class Citizen extends Player{
+public abstract class Citizen extends Player {
     public Citizen(String name, int id) {
         super(name, id);
     }
 
-    public Citizen(String name) {
-        super(name);
+    @Override
+    public boolean detectIsMafia() {
+        return false;
     }
-
 }

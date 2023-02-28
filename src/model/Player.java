@@ -1,22 +1,21 @@
 package model;
 
-import logic.PlayerVisitor;
-
 public abstract class Player {
     protected int id;
     protected String name;
-    protected boolean isAlive;
-    protected boolean isMute;
+    protected boolean alive;
+    protected boolean mute;
+    // temporary fields
+    protected boolean heal, healByLecter, killByGodfather, killBySniper;
+    private int votes, mafiaVotes;
 
-    public Player(String name , int id){
+    public Player(String name, int id) {
         this.name = name;
         this.id = id;
-        isAlive = true;
-        isMute = false;
-    }
-
-    public Player(String name) {
-        this(name , -1);
+        this.alive = true;
+        this.mute = false;
+        heal = healByLecter = killByGodfather = killBySniper = false;
+        votes = mafiaVotes = 0;
     }
 
     public int getId() {
@@ -28,11 +27,11 @@ public abstract class Player {
     }
 
     public boolean isAlive() {
-        return isAlive;
+        return alive;
     }
 
     public boolean isMute() {
-        return isMute;
+        return mute;
     }
 
     public void setName(String name) {
@@ -40,13 +39,84 @@ public abstract class Player {
     }
 
     public void setAlive(boolean alive) {
-        isAlive = alive;
+        this.alive = alive;
     }
 
     public void setMute(boolean mute) {
-        isMute = mute;
+        this.mute = mute;
     }
 
-    public abstract void accept(PlayerVisitor playerVisitor, Player target);
+    public abstract String action(Player target);
+
+    public abstract boolean detectIsMafia();
+
+    public void vote(Player target) {
+        target.increaseVote();
+    }
+
+    public void reset() {
+        heal = healByLecter = killByGodfather = killBySniper = false;
+        votes = mafiaVotes = 0;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isHeal() {
+        return heal;
+    }
+
+    public void setHeal(boolean heal) {
+        this.heal = heal;
+    }
+
+    public boolean isHealByLecter() {
+        return healByLecter;
+    }
+
+    public void setHealByLecter(boolean healByLecter) {
+        this.healByLecter = healByLecter;
+    }
+
+    public boolean isKillByGodfather() {
+        return killByGodfather;
+    }
+
+    public void setKillByGodfather(boolean killByGodfather) {
+        this.killByGodfather = killByGodfather;
+    }
+
+    public boolean isKillBySniper() {
+        return killBySniper;
+    }
+
+    public void setKillBySniper(boolean killBySniper) {
+        this.killBySniper = killBySniper;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public int getMafiaVotes() {
+        return mafiaVotes;
+    }
+
+    public void setMafiaVotes(int mafiaVotes) {
+        this.mafiaVotes = mafiaVotes;
+    }
+
+    public void increaseVote() {
+        this.votes++;
+    }
+
+    public void increaseMafiaVote() {
+        this.votes++;
+    }
 
 }

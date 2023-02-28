@@ -1,8 +1,6 @@
 package model;
 
-import logic.PlayerVisitor;
-
-public class Sniper extends Citizen{
+public class Sniper extends Citizen {
     private int numberOfBulletsLeft;
 
     public Sniper(String name, int id) {
@@ -10,20 +8,21 @@ public class Sniper extends Citizen{
         numberOfBulletsLeft = 2;
     }
 
-    public Sniper(String name) {
-        this(name , -1);
+    @Override
+    public String action(Player target) {
+        if (shot()) {
+            target.setKillBySniper(true);
+            return "";
+        } else {
+            return "NO_BULLETS";
+        }
     }
 
     public int getNumberOfBulletsLeft() {
         return numberOfBulletsLeft;
     }
 
-    public boolean shot(){
-        return numberOfBulletsLeft -- > 0;
-    }
-
-    @Override
-    public void accept(PlayerVisitor playerVisitor, Player target) {
-        playerVisitor.sniperVisit(this,target);
+    public boolean shot() {
+        return numberOfBulletsLeft-- > 0;
     }
 }
