@@ -10,6 +10,7 @@ public class GameState {
     private final Set<Player> alivePlayers;
     private final Set<Player> deadInLastRound;
     private Player silentInLastRound;
+    private Player executedPlayer;
     private int round;
     private boolean day;
     private Joker joker; // if joker wins
@@ -59,7 +60,7 @@ public class GameState {
                     .max(Comparator.comparing(Player::getMafiaVotes))
                     .ifPresent(deadInLastRound::add);
         }
-        alivePlayers.forEach(this::killPlayer);
+        deadInLastRound.forEach(this::killPlayer);
         silentInLastRound = alivePlayers.stream()
                 .filter(Player::isMute)
                 .findAny()
@@ -71,7 +72,7 @@ public class GameState {
 
     public void nextNight() {
         alivePlayers.forEach(player -> player.setMute(false));
-        Player executedPlayer = getExecutedPlayer();
+        executedPlayer = calculateExecutedPlayer();
         if (executedPlayer != null) {
             if (executedPlayer instanceof Joker) {
                 joker = (Joker) executedPlayer;
@@ -110,6 +111,10 @@ public class GameState {
     }
 
     public Player getExecutedPlayer() {
+        return executedPlayer;
+    }
+
+    public Player calculateExecutedPlayer() {
         int t = alivePlayers.size() / 2 + 1;
         return alivePlayers.stream()
                 .filter(player -> player.getVotes() >= t)
