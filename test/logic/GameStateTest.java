@@ -94,16 +94,16 @@ public class GameStateTest {
     }
 
     @Test
-    public void test2{
-        GodFather godFather = new GodFather("Aref" , 1);
-        Sniper sniper = new Sniper("sniper" , 2);
-        Doctor doctor = new Doctor("doctor" , 3);
-        DoctorLecter doctorLecter = new DoctorLecter("dc" , 4);
-        Natasha natasha = new Natasha("natasha" , 5);
-        Joker joker = new Joker("joker" , 6);
-        Detective detective = new Detective("detective" , 7);
-        OrdinaryCitizen ordinaryCitizen = new OrdinaryCitizen("oc" , 8);
-        OrdinaryCitizen ordinaryCitizen1 = new OrdinaryCitizen("cs" , 9);
+    public void test2() {
+        GodFather godFather = new GodFather("Aref", 1);
+        Sniper sniper = new Sniper("sniper", 2);
+        Doctor doctor = new Doctor("doctor", 3);
+        DoctorLecter doctorLecter = new DoctorLecter("dc", 4);
+        Natasha natasha = new Natasha("natasha", 5);
+        Joker joker = new Joker("joker", 6);
+        Detective detective = new Detective("detective", 7);
+        OrdinaryCitizen ordinaryCitizen = new OrdinaryCitizen("oc", 8);
+        OrdinaryCitizen ordinaryCitizen1 = new OrdinaryCitizen("cs", 9);
         List<Player> players = new ArrayList<>();
         players.add(godFather);
         players.add(sniper);
@@ -151,12 +151,12 @@ public class GameStateTest {
         assertTrue(godFather.isAlive());
         assertFalse(natasha.isMute());
         assertTrue(joker.isMute());
-        assertEqual(1 , doctor.getNumberOfSelfSave());
+        assertEquals(1, doctor.getNumberOfSelfSave());
         assertEquals(0, gameState.getWinners().size());
         assertEquals(1, gameState.getRound());
         assertEquals(9, gameState.getAlivePlayers().size());
-        assertEqual(joker , gameState.getSilentPlayersInLastRound());
-        assertEqual(0 , gameState.getDeadPlayersInLastRound().size());
+        assertEquals(joker, gameState.getSilentPlayersInLastRound());
+        assertEquals(0, gameState.getDeadPlayersInLastRound().size());
 
         //vote
         joker.vote(joker);
@@ -178,9 +178,9 @@ public class GameStateTest {
         godFather.action(doctor);
         //detective detect natasha
         String result = detective.action(natasha);
-        assertEqual(result , "NO_MAFIA");
+        assertEquals(result, "MAFIA");
         gameState.nextDay();
-        assertEqual(1 , sniper.getNumberOfBulletsLeft());
+        assertEquals(1, sniper.getNumberOfBulletsLeft());
         assertEquals(8, gameState.getAlivePlayers().size());
         assertFalse(doctor.isAlive());
         assertTrue(godFather.isAlive());
@@ -192,15 +192,15 @@ public class GameStateTest {
         detective.vote(godFather);
         sniper.vote(detective);
         joker.vote(detective);
+        doctorLecter.vote(detective);
 
         gameState.nextNight();
-        assertEqual(detective , gameState.getExecutedPlayer());
+        assertEquals(detective, gameState.getExecutedPlayer());
         assertFalse(detective.isAlive());
         assertFalse(gameState.isDay());
-        assertEqual(7 , gameState.getAlivePlayers().size());
-        assertEqual(0 , gameState.getWinners().size());
-        asserEqual(2 , gameState.getRound());
-        assertEqual(0 , gameState.getAlivePlayers().size());
+        assertEquals(7, gameState.getAlivePlayers().size());
+        assertEquals(0, gameState.getWinners().size());
+        assertEquals(2, gameState.getRound());
 
         //godfather kill sniper
         godFather.action(sniper);
@@ -211,13 +211,13 @@ public class GameStateTest {
 
         //mafia win
         gameState.nextDay();
-        assertEqual(0 , sniper.getNumberOfBulletsLeft());
-        assertTrue(godFather.isAsked());
-        assertEqual(6 , gameState.getAlivePlayers().size());
+        assertEquals(0, sniper.getNumberOfBulletsLeft());
+        assertFalse(godFather.isAsked());
+        assertEquals(6, gameState.getAlivePlayers().size());
         assertTrue(gameState.getWinners().contains(godFather));
         assertTrue(gameState.getWinners().contains(natasha));
         assertTrue(gameState.getWinners().contains(doctorLecter));
-        assertEqual(3 , gameState.getWinners().size());
+        assertEquals(3, gameState.getWinners().size());
     }
 
     @org.junit.After
