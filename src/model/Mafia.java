@@ -5,6 +5,7 @@ public abstract class Mafia extends Player {
         super(name, id);
     }
 
+
     @Override
     public boolean detectIsMafia() {
         return true;

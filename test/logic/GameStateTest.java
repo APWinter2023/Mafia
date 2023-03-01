@@ -220,6 +220,158 @@ public class GameStateTest {
         assertEquals(3, gameState.getWinners().size());
     }
 
+    private GodFather godFather;
+    private Natasha natasha;
+    private DoctorLecter doctorLecter;
+    private OrdinaryMafia mafia;
+    private Detective detective;
+    private Doctor doctor;
+    private Sniper sniper;
+    private OrdinaryCitizen citizen1,citizen2,citizen3,citizen4;
+    private Joker joker;
+
+    private ArrayList<Player> players;
+    public void init(){
+        godFather=new GodFather("nima",0);
+        detective=new Detective("soheil",1);
+        natasha=new Natasha("rabi",2);
+        doctorLecter=new DoctorLecter("zeinab",3);
+        mafia=new OrdinaryMafia("tabas",4);
+        doctor=new Doctor("ali",5);
+        sniper=new Sniper("arman",6);
+        citizen1=new OrdinaryCitizen("ali2",7);
+        citizen2=new OrdinaryCitizen("ali barg",8);
+        citizen3=new OrdinaryCitizen("firoozeh",9);
+        citizen4=new OrdinaryCitizen("hossein",10);
+        joker=new Joker("farzad",11);
+        players=new ArrayList<>();
+        players.add(godFather);
+        players.add(sniper);
+        players.add(doctor);
+        players.add(doctorLecter);
+        players.add(natasha);
+        players.add(mafia);
+        players.add(joker);
+        players.add(detective);
+        players.add(citizen1);
+        players.add(citizen2);
+        players.add(citizen3);
+        players.add(citizen4);
+
+    }
+
+    @Test
+    public void test3(){
+        init();
+        GameState gameState=new GameState(players);
+
+        gameState.nextNight();
+        // **** night 1
+        assertEquals(0, gameState.getRound());
+        mafia.action(citizen1);
+        natasha.action(doctor);
+        doctorLecter.action(natasha);
+        sniper.action(natasha);
+        godFather.action(citizen1);
+        doctor.action(detective);
+        assertEquals("MAFIA",detective.action(mafia));
+        // **** day 1 :
+        // citizen 1 is dead, natasha is not dead (after sniper shot), doctor is muted
+        gameState.nextDay();
+        assertEquals(1,gameState.getRound());
+        assertEquals(11,gameState.getAlivePlayers().size());
+        assertTrue(doctor.isMute());
+        assertTrue(natasha.isAlive());
+        assertFalse(citizen1.isAlive());
+
+        // voting
+        godFather.vote(citizen2);
+        mafia.vote(citizen2);
+        natasha.vote(citizen2);
+        doctorLecter.vote(citizen2);
+        detective.vote(mafia);
+        doctor.vote(mafia);
+        sniper.vote(natasha);
+        joker.vote(mafia);
+        citizen2.vote(mafia);
+        citizen3.vote(mafia);
+        citizen4.vote(mafia);
+
+        // **** night 2
+        // mafia is executed
+        gameState.nextNight();
+        assertFalse(mafia.isAlive());
+        godFather.action(doctor);
+        natasha.action(joker);
+        doctorLecter.action(godFather);
+        assertEquals("NO_MAFIA",detective.action(godFather));
+        doctor.action(doctor);
+        sniper.action(citizen3);
+
+        // **** day 2
+        // doctor heal himself, citizen3 shot by sniper, godfather healed by doctolecter, detective asked for god father
+        gameState.nextDay();
+        assertEquals(2,gameState.getRound());
+        assertTrue(godFather.isAsked());
+        assertEquals(9,gameState.getAlivePlayers().size());
+        assertEquals(0,sniper.getNumberOfBulletsLeft());
+        assertEquals(1,doctor.getNumberOfSelfSave());
+        assertTrue(joker.isMute());
+
+        // voting
+        godFather.vote(citizen2);
+        natasha.vote(citizen2);
+        doctorLecter.vote(citizen2);
+        detective.vote(natasha);
+        doctor.vote(natasha);
+        sniper.vote(natasha);
+        joker.vote(sniper);
+        citizen2.vote(godFather);
+        citizen4.vote(sniper);
+        // **** night 3
+        // no one is executed
+        gameState.nextNight();
+        assertEquals(9,gameState.getAlivePlayers().size());
+        godFather.action(citizen2);
+        natasha.action(citizen4);
+        doctorLecter.action(natasha);
+        assertEquals("MAFIA",detective.action(godFather));
+        doctor.action(doctor);
+        sniper.action(godFather); // godfather shouldn't die
+
+
+        // **** day 3
+        // citizen2 is dead, citizen 4 is silent, doctor healed himself,sniper shot godfather
+        gameState.nextDay();
+        assertEquals(8,gameState.getAlivePlayers().size());
+        assertTrue(godFather.isAlive());
+        assertEquals(0,doctor.getNumberOfSelfSave());
+
+        // no voting
+
+        // **** night 4
+        gameState.nextNight();
+        godFather.action(doctor);
+        doctor.action(doctor);
+        // other actions don't matter
+
+        //  **** day 4
+        // doctor should be dead
+        gameState.nextDay();
+        assertFalse(doctor.isAlive());
+        // voting
+        godFather.vote(joker);
+        natasha.vote(joker);
+        doctorLecter.vote(joker);
+        detective.vote(joker);
+        doctor.vote(joker);
+        sniper.vote(joker);
+
+        gameState.nextNight();
+        // game is over, joker won
+        assertEquals(6,gameState.getAlivePlayers().size());
+        assertTrue(gameState.getWinners().contains(joker));
+    }
     @org.junit.After
     public void tearDown() throws Exception {
     }
