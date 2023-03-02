@@ -23,6 +23,10 @@ public class Sniper extends Citizen {
     }
 
     public boolean shot() {
-        return numberOfBulletsLeft-- > 0;
+        if (numberOfBulletsLeft > 0){
+            numberOfBulletsLeft --;
+            return true;
+        }
+        return false;
     }
 }
