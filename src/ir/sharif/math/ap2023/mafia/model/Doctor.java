@@ -1,4 +1,4 @@
-package model;
+package ir.sharif.math.ap2023.mafia.model;
 
 public class Doctor extends Citizen {
     private int numberOfSelfSave;

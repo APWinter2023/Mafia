@@ -1,4 +1,4 @@
-package model;
+package ir.sharif.math.ap2023.mafia.model;
 
 public class DoctorLecter extends Mafia {
     public DoctorLecter(String name, int id) {

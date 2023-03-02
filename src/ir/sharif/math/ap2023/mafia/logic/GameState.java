@@ -1,6 +1,6 @@
-package logic;
+package ir.sharif.math.ap2023.mafia.logic;
 
-import model.*;
+import ir.sharif.math.ap2023.mafia.model.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
