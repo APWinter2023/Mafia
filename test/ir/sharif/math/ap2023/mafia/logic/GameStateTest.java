@@ -528,6 +528,85 @@ public class GameStateTest {
         assertTrue(gameState.getWinners().contains(mafia3));
     }
 
+    @Test
+    public void test5(){
+        Sniper sniper = new Sniper("sniper" , 1);
+        Detective detective = new Detective("detective" , 2);
+        GodFather godFather = new GodFather("father" , 3);
+        OrdinaryMafia mafia = new OrdinaryMafia("mafia" , 4);
+        OrdinaryCitizen citizen1 = new OrdinaryCitizen("citizen1" , 5);
+        OrdinaryCitizen citizen2 = new OrdinaryCitizen("citizen2" , 6);
+
+        List<Player> players = new ArrayList<>();
+        players.add(godFather);
+        players.add(sniper);
+        players.add(detective);
+        players.add(mafia);
+        players.add(citizen1);
+        players.add(citizen2);
+
+        GameState gameState = new GameState(players);
+
+        gameState.nextNight();
+        // detective detect godfather
+        assertEquals("NO_MAFIA" , detective.action(godFather));
+        //sniper shot citizen1
+        assertEquals("", sniper.action(citizen1));
+
+        gameState.nextDay();
+        //round 1
+        assertTrue(godFather.isAsked());
+        assertTrue(godFather.isAlive());
+        assertFalse(citizen1.isAlive());
+        assertTrue(sniper.isAlive());
+        assertEquals(1 , sniper.getNumberOfBulletsLeft());
+
+        //no one vote
+        gameState.nextNight();
+        assertTrue(gameState.getWinners().isEmpty());
+        assertNull(gameState.getExecutedPlayer());
+        assertNull(gameState.getSilentPlayersInLastRound());
+        assertEquals(5 , gameState.getAlivePlayers().size());
+        assertEquals(1 , gameState.getRound());
+
+        //detective detect godfather
+        assertEquals("MAFIA" , detective.action(godFather));
+        //sniper shot mafia
+        assertEquals("" , sniper.action(mafia));
+
+        gameState.nextDay();
+        //round 2
+        assertTrue(gameState.getWinners().isEmpty());
+        assertEquals(2 , gameState.getRound());
+        assertTrue(gameState.getAlivePlayers().contains(sniper));
+        assertEquals( 4, gameState.getAlivePlayers().size());
+        assertTrue(godFather.isAlive());
+        assertTrue(godFather.isAsked());
+        assertFalse(godFather.isMute());
+        assertFalse(mafia.isAlive());
+        assertFalse(mafia.isHeal());
+        assertEquals(0 , sniper.getNumberOfBulletsLeft());
+
+        // no one vote
+        gameState.nextNight();
+        //detective detect godfather
+        assertEquals("MAFIA" , detective.action(godFather));
+        //sniper can't shot
+        assertEquals("NO_BULLETS" , sniper.action(detective));
+        //godfather kill himself!
+        godFather.action(godFather);
+
+        gameState.nextDay();
+        // round 3
+        // city won
+        assertTrue(gameState.getWinners().contains(citizen1));
+        assertEquals(4 , gameState.getWinners().size());
+        assertFalse(godFather.isAlive());
+        assertEquals(0 , sniper.getNumberOfBulletsLeft());
+        assertEquals(3 , gameState.getRound());
+        assertNull(gameState.getExecutedPlayer());
+    }
+
     @org.junit.After
     public void tearDown() throws Exception {
     }
