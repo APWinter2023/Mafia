@@ -15,6 +15,8 @@ public class Doctor extends Citizen {
             if (!saveResult) {
                 return "NO_SAVE";
             }
+        } else {
+            target.setHeal(true);
         }
         return "";
     }

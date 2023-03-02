@@ -116,7 +116,7 @@ public abstract class Player {
     }
 
     public void increaseMafiaVote() {
-        this.votes++;
+        this.mafiaVotes++;
     }
 
 }

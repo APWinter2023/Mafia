@@ -55,10 +55,18 @@ public class GameState {
                     .filter(player -> player.isKillByGodfather() && !player.isHeal()).findAny()
                     .ifPresent(deadInLastRound::add);
         } else {
-            alivePlayers.stream()
+            OptionalInt maxVoteOptional = alivePlayers.stream()
                     .filter(player -> player.getMafiaVotes() > 0)
-                    .max(Comparator.comparing(Player::getMafiaVotes))
-                    .ifPresent(deadInLastRound::add);
+                    .mapToInt(Player::getMafiaVotes)
+                    .max();
+            if (maxVoteOptional.isPresent()) {
+                int maxVote = maxVoteOptional.getAsInt();
+                alivePlayers.stream()
+                        .filter(player -> player.getMafiaVotes() == maxVote)
+                        .filter(player -> !player.isHeal())
+                        .findAny()
+                        .ifPresent(deadInLastRound::add);
+            }
         }
         deadInLastRound.forEach(this::killPlayer);
         silentInLastRound = alivePlayers.stream()

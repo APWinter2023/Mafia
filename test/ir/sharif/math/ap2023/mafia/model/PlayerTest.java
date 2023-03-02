@@ -71,6 +71,7 @@ public class PlayerTest {
         assertTrue(doctor instanceof Citizen);
         assertTrue(sniper instanceof Citizen);
         assertTrue(citizen1 instanceof Citizen);
+        assertTrue(citizen2 instanceof Citizen);
         assertTrue(joker instanceof Player);
     }
 
