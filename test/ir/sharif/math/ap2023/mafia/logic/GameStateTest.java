@@ -36,7 +36,7 @@ public class GameStateTest {
         assertEquals(0, gameState.getWinners().size());
         assertNull(gameState.getExecutedPlayer());
         assertEquals(0, gameState.getDeadPlayersInLastRound().size());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
         assertTrue(gameState.isDay());
         // start night
         gameState.nextNight();
@@ -49,7 +49,7 @@ public class GameStateTest {
         assertEquals(0, gameState.getWinners().size());
         assertEquals(1, gameState.getRound());
         assertEquals(5, gameState.getAlivePlayers().size());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
         assertEquals(1, gameState.getDeadPlayersInLastRound().size());
         assertEquals(citizen1, gameState.getDeadPlayersInLastRound().get(0));
         assertFalse(citizen1.isAlive());
@@ -71,7 +71,7 @@ public class GameStateTest {
         assertEquals(0, gameState.getWinners().size());
         assertEquals(2, gameState.getRound());
         assertEquals(3, gameState.getAlivePlayers().size());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
         assertEquals(1, gameState.getDeadPlayersInLastRound().size());
         assertEquals(citizen2, gameState.getDeadPlayersInLastRound().get(0));
         assertFalse(citizen2.isAlive());
@@ -122,7 +122,7 @@ public class GameStateTest {
         assertEquals(0, gameState.getWinners().size());
         assertNull(gameState.getExecutedPlayer());
         assertEquals(0, gameState.getDeadPlayersInLastRound().size());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
         assertTrue(gameState.isDay());
 
         //start night
@@ -132,7 +132,7 @@ public class GameStateTest {
         assertEquals(0, gameState.getWinners().size());
         assertNull(gameState.getExecutedPlayer());
         assertEquals(0, gameState.getDeadPlayersInLastRound().size());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
         assertFalse(gameState.isDay());
 
         //godfather kill doctor
@@ -143,7 +143,7 @@ public class GameStateTest {
         natasha.action(joker);
         assertEquals(9, gameState.getAlivePlayers().size());
         assertFalse(gameState.isDay());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
 
         gameState.nextDay();
         assertTrue(gameState.isDay());
@@ -155,7 +155,7 @@ public class GameStateTest {
         assertEquals(0, gameState.getWinners().size());
         assertEquals(1, gameState.getRound());
         assertEquals(9, gameState.getAlivePlayers().size());
-        assertEquals(joker, gameState.getSilentPlayersInLastRound());
+        assertEquals(joker, gameState.getSilentPlayerInLastRound());
         assertEquals(0, gameState.getDeadPlayersInLastRound().size());
 
         //vote
@@ -184,7 +184,7 @@ public class GameStateTest {
         assertEquals(8, gameState.getAlivePlayers().size());
         assertFalse(doctor.isAlive());
         assertTrue(godFather.isAlive());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
 
         //vote to execute detective
         godFather.vote(detective);
@@ -565,7 +565,7 @@ public class GameStateTest {
         gameState.nextNight();
         assertTrue(gameState.getWinners().isEmpty());
         assertNull(gameState.getExecutedPlayer());
-        assertNull(gameState.getSilentPlayersInLastRound());
+        assertNull(gameState.getSilentPlayerInLastRound());
         assertEquals(5 , gameState.getAlivePlayers().size());
         assertEquals(1 , gameState.getRound());
 

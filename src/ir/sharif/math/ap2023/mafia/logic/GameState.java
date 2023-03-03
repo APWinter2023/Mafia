@@ -98,7 +98,7 @@ public class GameState {
         return new ArrayList<>(deadInLastRound);
     }
 
-    public Player getSilentPlayersInLastRound() {
+    public Player getSilentPlayerInLastRound() {
         return silentInLastRound;
     }
 
